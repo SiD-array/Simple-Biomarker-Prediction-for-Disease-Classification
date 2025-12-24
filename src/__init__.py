@@ -10,6 +10,12 @@ from .feature_tools import (
     plot_top_genes_scores,
     save_top_biomarkers
 )
+from .model_trainer import (
+    ModelTrainer,
+    plot_confusion_matrix,
+    plot_model_comparison,
+    save_results_summary
+)
 
 
 
