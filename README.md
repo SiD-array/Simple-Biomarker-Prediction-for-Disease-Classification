@@ -37,7 +37,8 @@ RNA_Seq_Biomarker_Project/
 ├── scripts/
 │   ├── 1_clean_and_eda.py          # Data loading, cleaning, EDA
 │   ├── 2_feature_selection.py      # PCA, ANOVA feature selection
-│   └── 3_train_model.py            # Model training and evaluation
+│   ├── 3_train_model.py            # Model training and evaluation
+│   └── 4_interpret_biomarkers.py   # Biomarker interpretation & ranking
 ├── src/
 │   ├── __init__.py
 │   ├── data_loader.py              # Data loading utilities
@@ -50,10 +51,14 @@ RNA_Seq_Biomarker_Project/
 │   │   ├── pca_plot.png
 │   │   ├── top_genes_fscore.png
 │   │   ├── confusion_matrix.png
-│   │   └── model_comparison.png
-│   ├── top_50_biomarkers.txt       # Top biomarker candidates
-│   ├── model_results_summary.txt   # Detailed model results
-│   └── model_comparison.csv        # Model performance comparison
+│   │   ├── model_comparison.png
+│   │   ├── biomarker_coefficient_heatmap.png
+│   │   └── top[1-3]_gene_*_boxplot.png
+│   ├── top_50_biomarkers.txt           # ANOVA-based biomarkers
+│   ├── top_50_influential_biomarkers.txt # Coefficient-based biomarkers
+│   ├── gene_coefficient_rankings.csv   # Full gene rankings
+│   ├── model_results_summary.txt       # Detailed model results
+│   └── model_comparison.csv            # Model performance comparison
 ├── requirements.txt
 └── README.md
 ```
@@ -95,6 +100,9 @@ python scripts/2_feature_selection.py
 
 # Step 3: Model Training
 python scripts/3_train_model.py
+
+# Step 4: Biomarker Interpretation
+python scripts/4_interpret_biomarkers.py
 ```
 
 ## 📊 Dataset Summary
@@ -140,11 +148,40 @@ python scripts/3_train_model.py
 - 5-fold stratified cross-validation
 - Comprehensive evaluation with F1-Macro scoring
 
+### Step 4: Biomarker Interpretation ✅
+- Extract model coefficients for interpretability
+- Rank 1000 genes by predictive power
+- Identify class-specific biomarkers
+- Generate expression distribution visualizations
+
+## 🧬 Top Biomarkers Discovered
+
+### Most Influential Genes (by Model Coefficients)
+
+| Rank | Gene | Dominant Cancer | Coefficient |
+|------|------|-----------------|-------------|
+| 1 | gene_15898 | LUAD (Lung) | +0.0816 |
+| 2 | gene_6594 | LUAD (Lung) | +0.0615 |
+| 3 | gene_7964 | BRCA (Breast) | -0.0538 |
+| 4 | gene_2318 | BRCA (Breast) | -0.0534 |
+| 5 | gene_357 | BRCA (Breast) | +0.0513 |
+
+### Top Biomarker for Each Cancer Type
+
+| Cancer Type | Top Biomarker | Coefficient | Interpretation |
+|-------------|---------------|-------------|----------------|
+| **BRCA** (Breast) | gene_357 | +0.0513 | Upregulated |
+| **COAD** (Colon) | gene_12013 | +0.0285 | Upregulated |
+| **KIRC** (Kidney) | gene_3439 | +0.0398 | Upregulated |
+| **LUAD** (Lung) | gene_15898 | +0.0816 | Upregulated |
+| **PRAD** (Prostate) | gene_9176 | +0.0410 | Upregulated |
+
 ## 🔬 Key Features
 
 - **Class Imbalance Handling**: Uses `class_weight='balanced'` and stratified sampling
 - **Robust Evaluation**: F1-Macro score ensures fair evaluation across imbalanced classes
-- **Biomarker Discovery**: Identifies top 50 candidate biomarkers for cancer classification
+- **Biomarker Discovery**: Identifies top 50 candidate biomarkers using ANOVA and model coefficients
+- **Model Interpretability**: Full coefficient analysis for understanding gene-cancer associations
 - **Production Ready**: Trained model saved for deployment
 
 ## 📄 License

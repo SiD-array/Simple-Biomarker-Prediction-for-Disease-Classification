@@ -1,0 +1,68 @@
+================================================================================
+  Top 50 Most Influential Biomarkers (Logistic Regression Coefficients)
+================================================================================
+Selection Method: Maximum Absolute Coefficient across 5 Cancer Classes
+Model: Logistic Regression with class_weight='balanced'
+================================================================================
+
+Rank  Gene           Max |Coef|  Dominant Class Coefficient 
+------------------------------------------------------------
+1     gene_15898     0.0816      LUAD           +0.0816      
+2     gene_6594      0.0615      LUAD           +0.0615      
+3     gene_7964      0.0538      BRCA           -0.0538     
+4     gene_2318      0.0534      BRCA           -0.0534     
+5     gene_357       0.0513      BRCA           +0.0513      
+6     gene_15895     0.0507      LUAD           +0.0507      
+7     gene_5578      0.0493      BRCA           +0.0493      
+8     gene_8024      0.0490      BRCA           +0.0490      
+9     gene_15896     0.0486      LUAD           +0.0486      
+10    gene_15301     0.0478      BRCA           -0.0478     
+11    gene_15591     0.0476      LUAD           +0.0476      
+12    gene_9652      0.0468      BRCA           +0.0468      
+13    gene_15899     0.0467      LUAD           +0.0467      
+14    gene_5017      0.0456      LUAD           +0.0456      
+15    gene_16283     0.0455      LUAD           +0.0455      
+16    gene_15668     0.0445      LUAD           +0.0445      
+17    gene_15999     0.0440      BRCA           +0.0440      
+18    gene_545       0.0420      BRCA           +0.0420      
+19    gene_11762     0.0417      BRCA           +0.0417      
+20    gene_9176      0.0410      PRAD           +0.0410      
+21    gene_8032      0.0408      BRCA           +0.0408      
+22    gene_3439      0.0398      KIRC           +0.0398      
+23    gene_4773      0.0396      BRCA           -0.0396     
+24    gene_8034      0.0392      LUAD           -0.0392     
+25    gene_8014      0.0390      LUAD           -0.0390     
+26    gene_10279     0.0384      BRCA           +0.0384      
+27    gene_11903     0.0384      LUAD           +0.0384      
+28    gene_13517     0.0381      LUAD           -0.0381     
+29    gene_9175      0.0380      PRAD           +0.0380      
+30    gene_8891      0.0375      BRCA           -0.0375     
+31    gene_16372     0.0372      BRCA           -0.0372     
+32    gene_13639     0.0367      LUAD           +0.0367      
+33    gene_6734      0.0365      BRCA           +0.0365      
+34    gene_5576      0.0364      LUAD           -0.0364     
+35    gene_9177      0.0361      LUAD           -0.0361     
+36    gene_1735      0.0359      LUAD           -0.0359     
+37    gene_19296     0.0358      BRCA           -0.0358     
+38    gene_17905     0.0356      BRCA           +0.0356      
+39    gene_11920     0.0356      BRCA           -0.0356     
+40    gene_5727      0.0355      BRCA           +0.0355      
+41    gene_15897     0.0350      LUAD           +0.0350      
+42    gene_6733      0.0350      KIRC           +0.0350      
+43    gene_8031      0.0349      BRCA           +0.0349      
+44    gene_18753     0.0345      LUAD           -0.0345     
+45    gene_15577     0.0342      LUAD           +0.0342      
+46    gene_3785      0.0340      BRCA           +0.0340      
+47    gene_1566      0.0331      BRCA           +0.0331      
+48    gene_9706      0.0330      BRCA           -0.0330     
+49    gene_6530      0.0330      BRCA           +0.0330      
+50    gene_11550     0.0329      LUAD           +0.0329      
+
+================================================================================
+INTERPRETATION GUIDE:
+--------------------------------------------------------------------------------
+• Positive coefficient: Higher expression → Higher probability of that class
+• Negative coefficient: Higher expression → Lower probability of that class
+• Max |Coef|: Overall importance regardless of direction
+• Dominant Class: The cancer type most strongly associated with this gene
+================================================================================
