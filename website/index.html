@@ -85,6 +85,74 @@
             color: var(--accent-teal);
         }
 
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent-teal);
+            margin: 3px 0;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 17, 23, 0.98);
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent-teal);
+            background: var(--bg-card);
+        }
+
         /* Main Container */
         .container {
             max-width: 1400px;
@@ -440,6 +508,16 @@
             padding: 1.75rem;
         }
 
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 250px;
+        }
+
+        .chart-wrapper canvas {
+            max-width: 100%;
+        }
+
         .chart-title {
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
@@ -663,6 +741,10 @@
                 display: none;
             }
 
+            .hamburger {
+                display: flex;
+            }
+
             .container {
                 padding: 80px 1rem 2rem;
             }
@@ -804,6 +886,10 @@
                 padding: 1rem;
             }
 
+            .chart-wrapper {
+                min-height: 200px;
+            }
+
             .pathway-card {
                 padding: 1.25rem;
             }
@@ -844,8 +930,22 @@
                 <a href="#discovery">Biomarkers</a>
                 <a href="#model">Model</a>
             </div>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" onclick="closeMobileMenu()">Home</a>
+        <a href="#phase5a" onclick="closeMobileMenu()">Phase 5A</a>
+        <a href="#phase5b" onclick="closeMobileMenu()">Phase 5B</a>
+        <a href="#discovery" onclick="closeMobileMenu()">Biomarkers</a>
+        <a href="#model" onclick="closeMobileMenu()">Model</a>
+    </div>
 
     <div class="container">
         <!-- Hero Section -->
@@ -1159,19 +1259,25 @@
                 <div class="chart-container">
                     <div class="chart-title">📊 Top 10 Biomarkers by Coefficient</div>
                     <div class="chart-source">Source: gene_coefficient_rankings.csv</div>
-                    <canvas id="topGenesChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="topGenesChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-container">
                     <div class="chart-title">🎯 Dominant Cancer Distribution</div>
                     <div class="chart-source">Source: gene_coefficient_rankings.csv (top 50 genes)</div>
-                    <canvas id="cancerDistChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="cancerDistChart"></canvas>
+                    </div>
                 </div>
             </div>
 
             <div class="chart-container">
                 <div class="chart-title">🧬 Coefficient Heatmap (Top 15 Genes)</div>
                 <div class="chart-source">Source: gene_coefficient_rankings.csv | Coefficients by cancer type</div>
-                <canvas id="heatmapChart"></canvas>
+                <div class="chart-wrapper" style="min-height: 300px;">
+                    <canvas id="heatmapChart"></canvas>
+                </div>
             </div>
         </section>
 
@@ -1230,12 +1336,16 @@
                 <div class="chart-container">
                     <div class="chart-title">📊 Class Distribution</div>
                     <div class="chart-source">Source: labels.csv (801 samples)</div>
-                    <canvas id="classDistChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="classDistChart"></canvas>
+                    </div>
                 </div>
                 <div class="chart-container">
                     <div class="chart-title">📈 Model Comparison</div>
                     <div class="chart-source">Source: model_comparison.csv</div>
-                    <canvas id="modelCompChart"></canvas>
+                    <div class="chart-wrapper">
+                        <canvas id="modelCompChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1339,12 +1449,14 @@
 
         // Charts
         function renderCharts() {
+            const isMobileView = window.innerWidth < 768;
+            
             // Top 10 genes chart
             const top10 = biomarkers.slice(0, 10);
             new Chart(document.getElementById('topGenesChart'), {
                 type: 'bar',
                 data: {
-                    labels: top10.map(b => b.gene_id),
+                    labels: top10.map(b => isMobileView ? b.gene_id.replace('gene_', 'g') : b.gene_id),
                     datasets: [{
                         label: 'Max |Coefficient|',
                         data: top10.map(b => b.max_abs_coef),
@@ -1356,6 +1468,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true,
                     plugins: {
                         legend: { display: false }
                     },
@@ -1363,11 +1476,11 @@
                         y: {
                             beginAtZero: true,
                             grid: { color: 'rgba(255,255,255,0.1)' },
-                            ticks: { color: '#8b949e' }
+                            ticks: { color: '#8b949e', font: { size: isMobileView ? 10 : 12 } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#8b949e', maxRotation: 45 }
+                            ticks: { color: '#8b949e', maxRotation: 90, minRotation: 45, font: { size: isMobileView ? 8 : 11 } }
                         }
                     }
                 }
@@ -1391,10 +1504,11 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true,
                     plugins: {
                         legend: {
-                            position: 'right',
-                            labels: { color: '#8b949e', padding: 15 }
+                            position: window.innerWidth < 480 ? 'bottom' : 'right',
+                            labels: { color: '#8b949e', padding: 15, boxWidth: window.innerWidth < 480 ? 12 : 40 }
                         }
                     }
                 }
@@ -1404,10 +1518,11 @@
             const top15 = biomarkers.slice(0, 15);
             const cancerTypes = ['BRCA', 'COAD', 'KIRC', 'LUAD'];
             
+            const isMobile = window.innerWidth < 768;
             new Chart(document.getElementById('heatmapChart'), {
                 type: 'bar',
                 data: {
-                    labels: top15.map(b => b.gene_id),
+                    labels: top15.map(b => isMobile ? b.gene_id.replace('gene_', 'g') : b.gene_id),
                     datasets: cancerTypes.map((cancer, idx) => ({
                         label: cancer,
                         data: top15.map(b => b.coefficients[cancer] || 0),
@@ -1417,20 +1532,21 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: !isMobile,
                     plugins: {
                         legend: {
                             position: 'top',
-                            labels: { color: '#8b949e' }
+                            labels: { color: '#8b949e', boxWidth: isMobile ? 12 : 40, padding: isMobile ? 8 : 10 }
                         }
                     },
                     scales: {
                         y: {
                             grid: { color: 'rgba(255,255,255,0.1)' },
-                            ticks: { color: '#8b949e' }
+                            ticks: { color: '#8b949e', font: { size: isMobile ? 10 : 12 } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#8b949e', maxRotation: 45 }
+                            ticks: { color: '#8b949e', maxRotation: 90, minRotation: 45, font: { size: isMobile ? 8 : 11 } }
                         }
                     }
                 }
@@ -1558,6 +1674,28 @@
 
         document.getElementById('geneModal').addEventListener('click', (e) => {
             if (e.target.id === 'geneModal') closeModal();
+        });
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMobileMenu();
         });
 
         // Smooth scrolling
