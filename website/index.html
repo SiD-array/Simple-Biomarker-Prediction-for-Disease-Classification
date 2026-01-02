@@ -656,6 +656,181 @@
             .phase-content { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.5rem; }
         }
+
+        /* Tablet adjustments */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 80px 1rem 2rem;
+            }
+
+            .hero {
+                padding: 2rem 0 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .search-box select {
+                width: 100%;
+            }
+
+            .pipeline-flow {
+                flex-direction: column;
+            }
+
+            .pipeline-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -1.5rem;
+                transform: translateX(50%);
+            }
+
+            .pipeline-step {
+                margin-bottom: 1.5rem;
+            }
+
+            .pipeline-step:last-child {
+                margin-bottom: 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .footer-links a {
+                margin-left: 0;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+
+            nav {
+                padding: 0.6rem 1rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 1.25rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .phase-box {
+                padding: 1.25rem;
+            }
+
+            .info-box {
+                padding: 1.25rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .phase-badge {
+                font-size: 0.65rem;
+            }
+
+            .chart-container {
+                padding: 1rem;
+            }
+
+            .pathway-card {
+                padding: 1.25rem;
+            }
+
+            footer {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 360px) {
+            .container {
+                padding: 70px 0.75rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+
+            .stat-value {
+                font-size: 1.75rem;
+            }
+
+            .pipeline-step .step-value {
+                font-size: 1.25rem;
+            }
+        }
     </style>
 </head>
 <body>
